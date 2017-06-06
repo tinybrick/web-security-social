@@ -1,12 +1,13 @@
-package net.tinybrick.security.social;
+package net.tinybrick.security.social.configure;
 
 /**
  * Created by ji.wang on 2017-05-29.
  */
 
-import net.tinybrick.security.authentication.IAuthenticationToken;
-import net.tinybrick.security.authentication.IHttpSecurityConfigure;
-import net.tinybrick.security.authentication.UserProperties;
+import net.tinybrick.security.authentication.*;
+import net.tinybrick.security.social.IOAuth2SecurityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
@@ -28,6 +29,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import javax.servlet.Filter;
 import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 //@EnableGlobalMethodSecurity
@@ -37,7 +39,9 @@ import java.util.ArrayList;
 //@EnableOAuth2Sso
 //@PropertySource(value = "classpath:config/application.yml")
 public class SecuritySocialConfigure {
-    @Autowired protected UserProperties userPreferences;
+    Logger logger = LoggerFactory.getLogger(getClass());
+
+    //@Autowired protected UserProperties userPreferences;
 
     @Autowired
     private OAuth2ClientContext oauth2ClientContext;
@@ -88,17 +92,48 @@ public class SecuritySocialConfigure {
             super(userInfoEndpointUrl, clientId);
         }
 
+        @Override
         public OAuth2Authentication loadAuthentication(String accessToken) throws AuthenticationException, InvalidTokenException {
             final OAuth2Authentication authentication =  super.loadAuthentication(accessToken);
+            IOAuth2SecurityService securityService = (IOAuth2SecurityService) securityService();
+            securityService.register(authentication);
+
             // TODO: Add hook for authentication
-            userPreferences.setCredential(new IAuthenticationToken<String>() {
+            /*userPreferences.setCredential(new IAuthenticationToken<String>() {
                 public String getUsername() {
                     return (String) authentication.getPrincipal();
                 }
             });
-            userPreferences.setAuthorities(new ArrayList(authentication.getAuthorities()));
+            userPreferences.setAuthorities(new ArrayList(authentication.getAuthorities()));*/
 
             return authentication;
+        }
+    }
+
+    @Autowired(required = false) protected ISecurityService securityService;
+    @Bean
+    ISecurityService securityService() {
+        if(null != securityService){
+            return securityService;
+        }
+
+        try {
+            return new IOAuth2SecurityService() {
+                public void register(OAuth2Authentication authentication) {
+
+                }
+
+                public void validate(IAuthenticationToken<?> iAuthenticationToken) throws AuthenticationException {
+
+                }
+
+                public List<Authority<?, ?>> getAuthorities(IAuthenticationToken<?> iAuthenticationToken) {
+                    return null;
+                }
+            };
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw new AuthenticationException(e.getMessage()) {};
         }
     }
 }

@@ -1,6 +1,7 @@
 package net.tinybrick.security.social;
 
 import net.tinybrick.security.configure.SecurityConfigure;
+import net.tinybrick.security.social.configure.SecuritySocialConfigure;
 import net.tinybrick.web.configure.ApplicationCoreConfigure;
 import org.apache.log4j.Logger;
 import org.springframework.boot.Banner.Mode;
