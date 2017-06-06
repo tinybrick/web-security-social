@@ -29,8 +29,8 @@ class FacebookOAuth2Config extends ResourceOwnerPasswordResourceDetails {
     public FacebookOAuth2Config() {
         setAccessTokenUri("https://graph.facebook.com/oauth/access_token");
         setClientId("1916572711894629");
-        setUsername("jeffwji");
-        setPassword("And3b6s5y");
+        setUsername("ella_pnxmwat_user@tfbnw.net");
+        setPassword("123456ABCDefg");
     }
 }
 
