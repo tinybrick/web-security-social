@@ -5,6 +5,7 @@ import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.security.oauth2.client.test.OAuth2ContextSetup;
 import org.springframework.security.oauth2.client.test.RestTemplateHolder;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.client.RestOperations;
 
 /**
@@ -25,6 +26,7 @@ public class OAuth2TestBase implements RestTemplateHolder {
     }
 }
 
+@TestPropertySource(locations = "classpath:config/test.properties")
 class FacebookOAuth2Config extends ResourceOwnerPasswordResourceDetails {
     public FacebookOAuth2Config() {
         setAccessTokenUri("https://graph.facebook.com/oauth/access_token");

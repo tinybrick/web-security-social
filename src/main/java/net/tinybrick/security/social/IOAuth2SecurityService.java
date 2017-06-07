@@ -9,5 +9,8 @@ import java.util.List;
  * Created by ji.wang on 2017-06-05.
  */
 public interface IOAuth2SecurityService extends ISecurityService {
-    void register(OAuth2Authentication authentication);
+    public enum SOCIAL_SOURCE{
+        FACEBOOK
+    }
+    String register(OAuth2Authentication authentication, SOCIAL_SOURCE source) throws Exception;
 }
