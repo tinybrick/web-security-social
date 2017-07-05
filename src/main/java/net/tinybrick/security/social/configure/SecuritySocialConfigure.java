@@ -4,9 +4,7 @@ package net.tinybrick.security.social.configure;
  * Created by ji.wang on 2017-05-29.
  */
 
-import net.tinybrick.security.authentication.*;
-import net.tinybrick.security.social.IOAuth2SecurityService;
-import net.tinybrick.security.social.authentication.MemStorageSecurityService;
+import net.tinybrick.security.authentication.IHttpSecurityConfigure;
 import net.tinybrick.security.social.facebook.FacebookUserInfoTokenServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

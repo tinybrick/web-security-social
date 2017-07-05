@@ -1,17 +1,15 @@
 package net.tinybrick.security.social.unit;
 
-import net.tinybrick.security.authentication.UsernamePasswordToken;
 import net.tinybrick.security.configure.SecurityConfigure;
 import net.tinybrick.security.social.TestConfiguration;
 import net.tinybrick.security.social.configure.SecuritySocialConfigure;
 import net.tinybrick.security.social.controllers.SocialLoginController;
 import net.tinybrick.test.web.unit.ControllerTestBase;
-
 import net.tinybrick.web.configure.ApplicationCoreConfigure;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.http.*;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.ResultActions;
 
