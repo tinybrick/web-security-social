@@ -2,6 +2,7 @@ package net.tinybrick.security.social.unit;
 
 import net.tinybrick.security.authentication.UsernamePasswordToken;
 import net.tinybrick.security.configure.SecurityConfigure;
+import net.tinybrick.security.social.TestConfiguration;
 import net.tinybrick.security.social.configure.SecuritySocialConfigure;
 import net.tinybrick.security.social.controllers.SocialLoginController;
 import net.tinybrick.test.web.unit.ControllerTestBase;
@@ -20,7 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by ji.wang on 2017-06-06.
  */
-@SpringApplicationConfiguration(classes = {SecuritySocialConfigure.class,
+@SpringApplicationConfiguration(classes = {
+        TestConfiguration.class,
+        SecuritySocialConfigure.class,
         SecurityConfigure.class,
         ApplicationCoreConfigure.class,
         SocialLoginController.class })

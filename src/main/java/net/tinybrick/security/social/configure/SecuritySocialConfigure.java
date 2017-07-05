@@ -30,11 +30,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import javax.servlet.Filter;
 
 @Configuration
-//@EnableGlobalMethodSecurity
-//@EnableWebSecurity
 @EnableAutoConfiguration
 @EnableOAuth2Client
-//@EnableOAuth2Sso
 //@PropertySource(value = "classpath:config/application.yml")
 public class SecuritySocialConfigure {
     Logger logger = LoggerFactory.getLogger(getClass());
@@ -88,7 +85,7 @@ public class SecuritySocialConfigure {
         return new FacebookUserInfoTokenServices(facebookResource().getUserInfoUri(), facebook().getClientId());
     }
 
-    @Autowired(required = false) protected IOAuth2SecurityService securityService;
+    /*@Autowired(required = false) protected IOAuth2SecurityService securityService;
     @Bean
     IOAuth2SecurityService securityService() throws Exception {
         if(null != securityService){
@@ -97,5 +94,5 @@ public class SecuritySocialConfigure {
 
         securityService = new MemStorageSecurityService("users.conf");
         return securityService;
-    }
+    }*/
 }
