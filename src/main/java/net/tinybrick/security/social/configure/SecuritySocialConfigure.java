@@ -5,6 +5,9 @@ package net.tinybrick.security.social.configure;
  */
 
 import net.tinybrick.security.authentication.IHttpSecurityConfigure;
+import net.tinybrick.security.authentication.filter.tools.IEncryptionManager;
+import net.tinybrick.security.social.IOAuth2SecurityService;
+import net.tinybrick.security.social.facebook.FacebookClientAuthenticationProcessingFilter;
 import net.tinybrick.security.social.facebook.FacebookUserInfoTokenServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,16 +19,24 @@ import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.Filter;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableAutoConfiguration
@@ -60,7 +71,7 @@ public class SecuritySocialConfigure {
 
     //@Bean
     public Filter facebookSsoFilter() {
-        OAuth2ClientAuthenticationProcessingFilter facebookFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/facebook");
+        OAuth2ClientAuthenticationProcessingFilter facebookFilter = new FacebookClientAuthenticationProcessingFilter("/login/facebook");
         OAuth2RestTemplate facebookTemplate = new OAuth2RestTemplate(facebook(), oauth2ClientContext);
         facebookFilter.setRestTemplate(facebookTemplate);
         UserInfoTokenServices tokenServices = facebookUserInfoTokenServices();
@@ -83,14 +94,28 @@ public class SecuritySocialConfigure {
         return new FacebookUserInfoTokenServices(facebookResource().getUserInfoUri(), facebook().getClientId());
     }
 
-    /*@Autowired(required = false) protected IOAuth2SecurityService securityService;
-    @Bean
-    IOAuth2SecurityService securityService() throws Exception {
-        if(null != securityService){
-            return securityService;
-        }
+    @RestController
+    @RequestMapping("/login")
+    public static class SocialLoginController {
+        final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(this.getClass());
 
-        securityService = new MemStorageSecurityService("users.conf");
-        return securityService;
-    }*/
+        @Autowired
+        FacebookUserInfoTokenServices facebookUserInfoTokenServices;
+
+        @RequestMapping(
+                method = RequestMethod.PUT,
+                value = "facebook/accesstoken/{token}",
+                consumes = {MediaType.ALL_VALUE },
+                produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+        public @ResponseBody
+        ResponseEntity<Map<String, Object>> facebook(@PathVariable( value = "token") String accesstoken) throws Exception {
+            Map<String, Object> userInfoMap = new HashMap<String, Object>();
+
+            OAuth2Authentication authentication = facebookUserInfoTokenServices.loadAuthentication(accesstoken);
+            String token= (String) ((Map)authentication.getUserAuthentication().getDetails()).get("siteToken");
+
+            userInfoMap.put("token", token);
+            return new ResponseEntity<Map<String, Object>>(userInfoMap, HttpStatus.OK);
+        }
+    }
 }

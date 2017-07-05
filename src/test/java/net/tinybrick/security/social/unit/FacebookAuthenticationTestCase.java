@@ -3,7 +3,6 @@ package net.tinybrick.security.social.unit;
 import net.tinybrick.security.configure.SecurityConfigure;
 import net.tinybrick.security.social.TestConfiguration;
 import net.tinybrick.security.social.configure.SecuritySocialConfigure;
-import net.tinybrick.security.social.controllers.SocialLoginController;
 import net.tinybrick.test.web.unit.ControllerTestBase;
 import net.tinybrick.web.configure.ApplicationCoreConfigure;
 import org.junit.Test;
@@ -23,8 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         TestConfiguration.class,
         SecuritySocialConfigure.class,
         SecurityConfigure.class,
-        ApplicationCoreConfigure.class,
-        SocialLoginController.class })
+        ApplicationCoreConfigure.class })
 @TestPropertySource(locations = "classpath:config/test.properties")
 public class FacebookAuthenticationTestCase extends ControllerTestBase {
     public String getUsername() {
