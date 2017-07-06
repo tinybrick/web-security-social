@@ -10,5 +10,5 @@ public interface IOAuth2SecurityService extends ISecurityService {
     public enum SOCIAL_SOURCE{
         FACEBOOK
     }
-    String register(OAuth2Authentication authentication, SOCIAL_SOURCE source) throws Exception;
+    Object register(OAuth2Authentication authentication, SOCIAL_SOURCE source) throws Exception;
 }
