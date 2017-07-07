@@ -28,7 +28,7 @@ public class FacebookUserInfoTokenServices extends UserInfoTokenServices {
         final OAuth2Authentication authentication = super.loadAuthentication(accessToken);
 
         try {
-            Object token = securityService.register(authentication, IOAuth2SecurityService.SOCIAL_SOURCE.FACEBOOK);
+            Object token = securityService.registerSocialUser(authentication, IOAuth2SecurityService.SOCIAL_SOURCE.FACEBOOK);
             ((Map)authentication.getUserAuthentication().getDetails()).put("siteToken", token.toString());
         } catch (Exception e) {
             throw new AuthenticationException(e.getMessage(), e){};

@@ -11,12 +11,12 @@ import java.util.*;
 /**
  * Created by ji.wang on 2017-06-06.
  */
-public class MemStorageSecurityService extends SimpleSecurityService implements IOAuth2SecurityService {
+public class MemStorageSecurityService extends SimpleSecurityService implements IOAuth2SecurityService<String> {
     public MemStorageSecurityService(String fileName) throws Exception {
         super(fileName);
     }
 
-    public String register(OAuth2Authentication authentication, SOCIAL_SOURCE source) throws Exception {
+    public String registerSocialUser(OAuth2Authentication authentication, SOCIAL_SOURCE source) throws Exception {
         String principal = authentication.getPrincipal().toString();
         String password = String.valueOf(new Date().getTime());
 
