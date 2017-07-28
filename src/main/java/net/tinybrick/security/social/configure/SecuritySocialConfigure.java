@@ -5,8 +5,6 @@ package net.tinybrick.security.social.configure;
  */
 
 import net.tinybrick.security.authentication.IHttpSecurityConfigure;
-import net.tinybrick.security.authentication.filter.tools.IEncryptionManager;
-import net.tinybrick.security.social.IOAuth2SecurityService;
 import net.tinybrick.security.social.facebook.FacebookClientAuthenticationProcessingFilter;
 import net.tinybrick.security.social.facebook.FacebookUserInfoTokenServices;
 import org.slf4j.Logger;
@@ -23,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;

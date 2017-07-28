@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableAutoConfiguration
 public class TestConfiguration {
-    @Autowired(required = false) protected IOAuth2SecurityService securityService;
+    //@Autowired(required = false) protected IOAuth2SecurityService securityService;
     @Bean
     IOAuth2SecurityService securityService() throws Exception {
-        if(null != securityService){
+        /*if(null != securityService){
             return securityService;
-        }
+        }*/
 
-        securityService = new MemStorageSecurityService("users.conf");
+        IOAuth2SecurityService securityService = new MemStorageSecurityService("users.conf");
         return securityService;
     }
 }
