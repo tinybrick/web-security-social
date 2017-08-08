@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="log-base">${log4j.log.base}</Property>
+        <Property name="instance-name">${log4j.log.instance-name}</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console config -->
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
+        </Console>
+
+        <!-- File config -->
+        <RollingFile name="ALL"
+                     fileName="${log-base}/${instance-name}/${project.artifactId}.log"
+                     filePattern="${log-base}/archives/${project.artifactId}-%d{yyyy-MM-dd}-${instance-name}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="error-log" fileName="${log-base}/${instance-name}/${project.artifactId}-error.log"
+                     filePattern="${log-base}/archives/${project.artifactId}-error-%d{yyyy-MM-dd}-${instance-name}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="${log4j.log.level}" additivity="false">
+            <AppenderRef ref="${log4j.log.logger}"/>
+        </Root>
+
+        <!--<Logger level="${log4j.log.level}" additivity="false">
+            <appender-ref ref="all-log" level="${log4j.log.level}"/>
+            <appender-ref ref="error-log" level="error"/>
+            <appender-ref ref="${log4j.log.logger}" level="${log4j.log.level}"/>
+        </Logger>-->
+    </Loggers>
+</Configuration>

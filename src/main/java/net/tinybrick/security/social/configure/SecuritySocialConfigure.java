@@ -7,14 +7,14 @@ package net.tinybrick.security.social.configure;
 import net.tinybrick.security.authentication.IHttpSecurityConfigure;
 import net.tinybrick.security.social.facebook.FacebookClientAuthenticationProcessingFilter;
 import net.tinybrick.security.social.facebook.FacebookUserInfoTokenServices;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -40,7 +40,7 @@ import java.util.Map;
 @EnableOAuth2Client
 //@PropertySource(value = "classpath:config/application.yml")
 public class SecuritySocialConfigure {
-    Logger logger = LoggerFactory.getLogger(getClass());
+    Logger logger = LogManager.getLogger(getClass());
 
     @Autowired
     private OAuth2ClientContext oauth2ClientContext;
@@ -94,7 +94,7 @@ public class SecuritySocialConfigure {
     @RestController
     @RequestMapping("/login")
     public static class SocialLoginController {
-        final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(this.getClass());
+        final Logger logger = LogManager.getLogger(this.getClass());
 
         @Autowired
         FacebookUserInfoTokenServices facebookUserInfoTokenServices;
