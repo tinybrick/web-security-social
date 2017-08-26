@@ -16,8 +16,8 @@ import java.util.Map;
  */
 public class FacebookUserInfoTokenServices extends UserInfoTokenServices {
     @Autowired
-    //protected IOAuth2SecurityService securityService;
-    ApplicationContext context;
+    protected IOAuth2SecurityService securityService;
+    //ApplicationContext context;
 
     @Autowired
     IEncryptionManager encryptionManager;
@@ -28,16 +28,14 @@ public class FacebookUserInfoTokenServices extends UserInfoTokenServices {
 
     @Override
     public OAuth2Authentication loadAuthentication(String accessToken) throws AuthenticationException, InvalidTokenException {
-        final OAuth2Authentication authentication = super.loadAuthentication(accessToken);
-
         try {
-            IOAuth2SecurityService securityService = context.getBean(IOAuth2SecurityService.class);
+            final OAuth2Authentication authentication = super.loadAuthentication(accessToken);
+            //IOAuth2SecurityService securityService = context.getBean(IOAuth2SecurityService.class);
             Object token = securityService.registerSocialUser(authentication, IOAuth2SecurityService.SOCIAL_SOURCE.FACEBOOK);
             ((Map)authentication.getUserAuthentication().getDetails()).put("siteToken", token.toString());
+            return authentication;
         } catch (Exception e) {
             throw new AuthenticationException(e.getMessage(), e){};
         }
-
-        return authentication;
     }
 }
